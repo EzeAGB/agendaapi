@@ -1,7 +1,7 @@
 
 # Etapa 1: Construcción
 # Usa una imagen de Amazon Corretto con JDK 21
-FROM amazoncorretto:21-al2-jdk AS build
+FROM amazoncorretto:25-alpine3.21-jdk AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
