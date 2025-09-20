@@ -11,7 +11,7 @@ RUN mvn clean package -DskipTests
 
 # Etapa 2: Despliegue
 # Usa la imagen ligera de Amazon Corretto con JRE 25
-FROM amazoncorretto:25-alpine3.21-jre
+FROM amazoncorretto:25-alpine3.21-jdk
 WORKDIR /app
 COPY --from=build /app/target/agenda-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 9999
