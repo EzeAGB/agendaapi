@@ -1,18 +1,14 @@
-# Usa una imagen base de OpenJDK
+# Etapa 1: Construir la aplicación
+# Usamos una imagen de Maven con OpenJDK 25
+FROM maven:3.8.5-openjdk-25-slim AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Crear la imagen final de despliegue
+# Usamos una imagen ligera de OpenJDK 25 para el despliegue
 FROM openjdk:25-jdk-slim
-
-# Crea un volumen para la aplicación
-VOLUME /tmp
-
-# Copia el archivo JAR de tu aplicación al contenedor
-# Asegúrate de que el nombre del archivo JAR coincida con el tuyo
-COPY target/agenda-0.0.1-SNAPSHOT.jar app.jar
-
-# Define la variable de entorno que Spring Boot usará para acceder al JAR
-ENV SPRING_PROFILES_ACTIVE=prod
-
-# Expone el puerto de la aplicación (8080 es el predeterminado para Spring Boot)
-EXPOSE 9999
-
-# Comando para ejecutar la aplicación
+WORKDIR /app
+COPY --from=build /app/target/agenda-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
