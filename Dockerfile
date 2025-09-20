@@ -1,6 +1,6 @@
 # Etapa 1: Construir la aplicación
-# Usamos una imagen de Maven con OpenJDK 21
-FROM maven:3.9.5-openjdk-21-slim AS build
+# Usamos una imagen de Maven que incluye OpenJDK 21
+FROM maven:3-openjdk-21 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
